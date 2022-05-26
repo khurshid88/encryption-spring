@@ -23,6 +23,18 @@ public class Asymmetric {
         publicKey = pair.getPublic();
     }
 
+    public String encryptMessage(String plainText, String publickey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, loadPublicKey(publickey));
+        return Base64.getEncoder().encodeToString(cipher.doFinal(plainText.getBytes()));
+    }
+
+    public String decryptMessage(String encryptedText, String privatekey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipher.init(Cipher.DECRYPT_MODE, loadPrivateKey(privatekey));
+        return new String(cipher.doFinal(Base64.getDecoder().decode(encryptedText)));
+    }
+
     public PublicKey loadPublicKey(String stored) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] data = Base64.getDecoder().decode(stored.getBytes());
         var spec = new X509EncodedKeySpec(data);
@@ -38,17 +50,4 @@ public class Asymmetric {
         Arrays.fill(clear, (byte) 0);
         return priv;
     }
-
-    public String encryptMessage(String plainText, String publickey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, loadPublicKey(publickey));
-        return Base64.getEncoder().encodeToString(cipher.doFinal(plainText.getBytes()));
-    }
-
-    public String decryptMessage(String encryptedText, String privatekey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        cipher.init(Cipher.DECRYPT_MODE, loadPrivateKey(privatekey));
-        return new String(cipher.doFinal(Base64.getDecoder().decode(encryptedText)));
-    }
-
 }

@@ -20,8 +20,13 @@ public class EncryptionApplication {
 
     public static void main(String[] args) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, InvalidKeyException {
         SpringApplication.run(EncryptionApplication.class, args);
-        //testSymmetric();
-        //testAsymmetric();
+
+//        Asymmetric keyPairGenerator = new Asymmetric();
+//        // Generate private and public key
+//        String privateKey = Base64.getEncoder().encodeToString(keyPairGenerator.privateKey.getEncoded());
+//        String publicKey = Base64.getEncoder().encodeToString(keyPairGenerator.publicKey.getEncoded());
+//        System.out.println("Public Key: " + publicKey);
+//        System.out.println("Private Key: " + privateKey);
     }
 
     private static void testSymmetric() {
