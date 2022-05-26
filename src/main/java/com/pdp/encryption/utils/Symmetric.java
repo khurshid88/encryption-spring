@@ -10,7 +10,8 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Symmetric {
-    private static SecretKeySpec secretKey;
+    static String secretKey = "mamarayim";
+    private static SecretKeySpec secretKeySpec;
     private static byte[] key;
 
     public static void setKey(final String myKey) {
@@ -20,17 +21,17 @@ public class Symmetric {
             sha = MessageDigest.getInstance("SHA-1");
             key = sha.digest(key);
             key = Arrays.copyOf(key, 16);
-            secretKey = new SecretKeySpec(key, "AES");
+            secretKeySpec = new SecretKeySpec(key, "AES");
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
-    public static String encrypt(final String strToEncrypt, final String secret) {
+    public static String encrypt(final String strToEncrypt) {
         try {
-            setKey(secret);
+            setKey(secretKey);
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
         } catch (Exception e) {
             System.out.println("Error while encrypting: " + e.toString());
@@ -38,11 +39,11 @@ public class Symmetric {
         return null;
     }
 
-    public static String decrypt(final String strToDecrypt, final String secret) {
+    public static String decrypt(final String strToDecrypt) {
         try {
-            setKey(secret);
+            setKey(secretKey);
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         } catch (Exception e) {
             System.out.println("Error while decrypting: " + e.toString());

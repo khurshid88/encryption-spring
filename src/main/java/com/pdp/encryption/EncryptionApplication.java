@@ -21,18 +21,16 @@ public class EncryptionApplication {
     public static void main(String[] args) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, InvalidKeyException {
         SpringApplication.run(EncryptionApplication.class, args);
         //testSymmetric();
-        testAsymmetric();
+        //testAsymmetric();
     }
 
     private static void testSymmetric() {
-        // key
-        String secretKey = "mamarayim";
         // secret text
         String originalString = "PDP Academy";
         // Encryption
-        String encryptedString = encrypt(originalString, secretKey);
+        String encryptedString = encrypt(originalString);
         // Decryption
-        String decryptedString = decrypt(encryptedString, secretKey);
+        String decryptedString = decrypt(encryptedString);
         // Printing originalString,encryptedString,decryptedString
         System.out.println("Original String: " + originalString);
         System.out.println("Encrypted value: " + encryptedString);
