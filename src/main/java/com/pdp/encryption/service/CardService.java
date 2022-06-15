@@ -45,6 +45,7 @@ public class CardService {
 
     public Card createCard(Card card) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, InvalidKeyException {
         card.setCardNumber(decryptCardNumber(card));
+
         return cardRepository.save(card);
     }
 
